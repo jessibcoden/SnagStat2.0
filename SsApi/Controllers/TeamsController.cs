@@ -73,12 +73,19 @@ namespace SsApi.Controllers
 
         // POST: api/Teams
         [ResponseType(typeof(Team))]
-        public IHttpActionResult PostTeam(Team team)
+        public IHttpActionResult PostTeam(AddTeamDto NewTeam)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var team = new Team
+            {
+                Name = NewTeam.Name,
+                User = db.Users.Find(NewTeam.AdminId),
+                Season = NewTeam.Season
+            };
 
             db.Teams.Add(team);
             db.SaveChanges();

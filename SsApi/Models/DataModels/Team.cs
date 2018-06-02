@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace SsApi.Models.DataModels
@@ -14,10 +16,15 @@ namespace SsApi.Models.DataModels
             get; set;
         }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual ICollection<Game> Games
         {
             get; set;
         }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual ICollection<TeamStatType> TeamStatTypes
         {
             get; set;
