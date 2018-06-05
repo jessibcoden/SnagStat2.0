@@ -38,22 +38,24 @@ namespace SsApi.Controllers
 
         // PUT: api/Teams/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutTeam(int id, Team team)
+        public IHttpActionResult PutTeam(int id, AddTeamDto team)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != team.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(team).State = EntityState.Modified;
-
+            
             try
             {
+                var UpdatedTeam = new Team
+                {
+                    Id = id,
+                    Name = team.Name,
+                    User = db.Users.Find(team.AdminId),
+                    Season = team.Season,
+                };
+
+                db.Entry(UpdatedTeam).State = EntityState.Modified;
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
